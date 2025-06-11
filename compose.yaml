@@ -1,5 +1,6 @@
 include:
-   - infra.yaml
+  - infra.yaml
+
 services:
   web:
     build: .
@@ -10,3 +11,9 @@ services:
         - action: sync
           path: .
           target: /code
+
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
