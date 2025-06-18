@@ -1,12 +1,17 @@
-FROM python:3.7-alpine
+FROM python:3.13-alpine
 
-WORKDIR /app
+WORKDIR /code
 
-COPY requirements.txt /app/
-RUN pip install --no-cache-dir -r requirements.txt
+RUN apk update \
+&& apk add --virtual build-deps gcc python3-dev musl-dev \
+&& apk add --no-cache mariadb-dev
 
-COPY . /app/
+RUN pip install Django mysqlclient
+
+RUN apk del build-deps
 
 EXPOSE 8000
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+COPY . .
+COPY
+ENTRYPOINT ["start.sh"]
